@@ -8,10 +8,10 @@ RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get -y install openjdk-8-jdk wget
 
-RUN mkdir /usr/local/tomcat
+RUN mkdir /opt/tomcat/
 
-RUN cd /usr/local/tomcat && wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz  && \
-    tar xvfz apache*.tar.gz && mv apache-tomcat-8.5.60/* /opt/tomcat/.
+RUN cd /opt/tomcat/ && wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz  && \
+    tar xvfz apache*.tar.gz && ls /opt/tomcat/
 
 
 RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
