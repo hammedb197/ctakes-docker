@@ -1,4 +1,7 @@
 
+
+
+
 FROM ubuntu:18.04 
 
 RUN apt-get -y update && apt-get -y upgrade
@@ -85,18 +88,18 @@ CMD ["mvn"]
 
 WORKDIR  ctakes-rest-service/
 COPY ctakes-rest-service/sno_rx_16ab_db /docker-entrypoint-initdb.d/
-RUN ls  
+COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
 RUN mkdir ctakes-codebase-area && \ 
     cd ctakes-codebase-area && \
     svn export 'https://svn.apache.org/repos/asf/ctakes/trunk' && \
     cd trunk/ctakes-distribution && \
-    ls -a && \
     mvn install -Dmaven.test.skip=true && \
     cd ../ctakes-assertion-zoner && \
     mvn install -Dmaven.test.skip=true && \
-    cd ../../ctakes-web-rest && mvn install && \
-    cd && cd ctakes-web-rest && mvn install && \
-    sudo mv target/ctakes-web-rest.war /opt/tomcat/latest/webapps/
+    cd  /ctakes-rest-service/ctakes-web-rest/ && \
+    ls /ctakes-rest-service/ctakes-web-rest/ && \
+    mvn install && \
+    mv /ctakes-rest-service/ctakes-web-rest/target/ctakes-web-rest.war /opt/tomcat/latest/webapps/
 
 #
 EXPOSE 8080
