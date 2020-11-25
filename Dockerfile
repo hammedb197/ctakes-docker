@@ -17,9 +17,9 @@ RUN wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.
 
 RUN tar -xzvf apache-tomcat-8.5.60.tar.gz
 RUN mv apache-tomcat-8.5.60 /opt/tomcat
-RUN chgrp -R tomcat /opt/tomcat
-RUN chown -R tomcat /opt/tomcat
-RUN chmod -R 755 /opt/tomcat
+# RUN chgrp -R tomcat /opt/tomcat
+# RUN chown -R tomcat /opt/tomcat
+# RUN chmod -R 755 /opt/tomcat
 # ENV text = """  
 # [Unit]
 # Description=Apache Tomcat Web Server
