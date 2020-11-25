@@ -18,31 +18,31 @@ RUN mv apache-tomcat-8.5.60 /opt/tomcat
 RUN chgrp -R tomcat /opt/tomcat
 RUN chown -R tomcat /opt/tomcat
 RUN chmod -R 755 /opt/tomcat
-ENV text = """  
-[Unit]
-Description=Apache Tomcat Web Server
-After=network.target
-[Service]
-Type=forking
-Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
-Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-Environment=CATALINA_HOME=/opt/tomcat
-Environment=CATALINA_BASE=/opt/tomcat
-Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
-Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
-ExecStart=/opt/tomcat/bin/startup.sh
-ExecStop=/opt/tomcat/bin/shutdown.sh
-User=tomcat
-Group=tomcat
-UMask=0007
-RestartSec=15
-Restart=always
-[Install]
-WantedBy=multi-user.target  """
+# ENV text = """  
+# [Unit]
+# Description=Apache Tomcat Web Server
+# After=network.target
+# [Service]
+# Type=forking
+# Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+# Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+# Environment=CATALINA_HOME=/opt/tomcat
+# Environment=CATALINA_BASE=/opt/tomcat
+# Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+# Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+# ExecStart=/opt/tomcat/bin/startup.sh
+# ExecStop=/opt/tomcat/bin/shutdown.sh
+# User=tomcat
+# Group=tomcat
+# UMask=0007
+# RestartSec=15
+# Restart=always
+# [Install]
+# WantedBy=multi-user.target  """
 
-# RUN echo $foo
+# # RUN echo $foo
 
-RUN echo $text > /etc/systemd/system/tomcat.service
+# RUN echo $text > /etc/systemd/system/tomcat.service
 
 
 RUN systemctl daemon-reload
