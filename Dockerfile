@@ -100,7 +100,7 @@ RUN mkdir ctakes-codebase-area && \
     cd  /ctakes-rest-service/ctakes-web-rest/ && \
     ls /ctakes-rest-service/ctakes-web-rest/ && \
     mvn install && \
-    mv /ctakes-rest-service/ctakes-web-rest/target/ctakes-web-rest.war /opt/tomcat/latest/webapps/
+    mv /ctakes-rest-service/ctakes-web-rest/target/ctakes-web-rest.war /opt/tomcat/apache-tomcat-8.5.60/webapps/
 
 #
 EXPOSE 8080
