@@ -18,7 +18,7 @@ RUN mv apache-tomcat-8.5.60 /opt/tomcat
 RUN chgrp -R tomcat /opt/tomcat
 RUN chown -R tomcat /opt/tomcat
 RUN chmod -R 755 /opt/tomcat
-RUN echo """
+ENV text = """  
 [Unit]
 Description=Apache Tomcat Web Server
 After=network.target
@@ -38,9 +38,11 @@ UMask=0007
 RestartSec=15
 Restart=always
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target  """
 
-""" > /etc/systemd/system/tomcat.service
+# RUN echo $foo
+
+RUN echo $text > /etc/systemd/system/tomcat.service
 
 
 RUN systemctl daemon-reload
