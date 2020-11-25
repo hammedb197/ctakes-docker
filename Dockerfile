@@ -18,7 +18,7 @@ RUN mv apache-tomcat-8.5.60 /opt/tomcat
 RUN chgrp -R tomcat /opt/tomcat
 RUN chown -R tomcat /opt/tomcat
 RUN chmod -R 755 /opt/tomcat
-RUN echo '''
+RUN echo "
 [Unit]
 Description=Apache Tomcat Web Server
 After=network.target
@@ -40,7 +40,7 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 
-''' > /etc/systemd/system/tomcat.service
+" > /etc/systemd/system/tomcat.service
 
 
 RUN systemctl daemon-reload
