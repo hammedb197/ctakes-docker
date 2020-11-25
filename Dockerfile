@@ -8,50 +8,11 @@ RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get -y install openjdk-8-jdk wget
 
-# RUN mkdir /usr/local/tomcat
-RUN wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz
+RUN mkdir /usr/local/tomcat
 
-# RUN wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz -O /tmp/tomcat.tar.gz
-# RUN cd /tmp && tar xvfz tomcat.tar.gz
-# RUN cp -Rv /tmp/apache-tomcat-8.5.60/* /usr/local/tomcat/
-
-RUN tar -xzvf apache-tomcat-8.5.60.tar.gz
-RUN mv apache-tomcat-8.5.60 /opt/tomcat
-# RUN chgrp -R tomcat /opt/tomcat
-# RUN chown -R tomcat /opt/tomcat
-# RUN chmod -R 755 /opt/tomcat
-# ENV text = """  
-# [Unit]
-# Description=Apache Tomcat Web Server
-# After=network.target
-# [Service]
-# Type=forking
-# Environment=JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
-# Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
-# Environment=CATALINA_HOME=/opt/tomcat
-# Environment=CATALINA_BASE=/opt/tomcat
-# Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
-# Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
-# ExecStart=/opt/tomcat/bin/startup.sh
-# ExecStop=/opt/tomcat/bin/shutdown.sh
-# User=tomcat
-# Group=tomcat
-# UMask=0007
-# RestartSec=15
-# Restart=always
-# [Install]
-# WantedBy=multi-user.target  """
-
-# # RUN echo $foo
-
-# RUN echo $text > /etc/systemd/system/tomcat.service
-
-
-RUN systemctl daemon-reload
-RUN systemctl start tomcat
-RUN systemctl enable tomcat
-RUN ufw allow 8080
-
+RUN wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz  
+RUN tar xvfz apache*.tar.gz
+RUN mv apache-tomcat-8.5.60/* /opt/tomcat/.
 
 
 RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
@@ -145,4 +106,4 @@ RUN mkdir ctakes-codebase-area && \
 #
 EXPOSE 8080
 
-
+CMD /usr/local/tomcat/bin/catalina.sh run
