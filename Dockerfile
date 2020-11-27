@@ -10,8 +10,8 @@ RUN mkdir /opt/tomcat/
 
 RUN cd /opt/tomcat/ && wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz  && \
     tar xvfz apache*.tar.gz && ls /opt/tomcat/apache-tomcat-8.5.60
-
-
+RUN ls opt/tomcat/apache-tomcat-8.5.60/bin
+# opt/tomcat/apache-tomcat-8.5.60/bin/startup.sh
 RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
 # EXPOSE 8080
 # CMD /usr/local/tomcat/bin/catalina.sh run
@@ -102,7 +102,7 @@ RUN mkdir ctakes-codebase-area && \
 
 #
 EXPOSE 8080
-
-# CMD /usr/local/tomcat/bin/catalina.sh run
-CMD ["catalina.sh", "run"]
+RUN ls opt/
+CMD opt/tomcat/apache-tomcat-8.5.60/bin/catalina.sh  run
+#CMD ["catalina.sh", "run"]
 
