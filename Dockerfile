@@ -104,3 +104,5 @@ RUN mkdir ctakes-codebase-area && \
 EXPOSE 8080
 
 # CMD /usr/local/tomcat/bin/catalina.sh run
+CMD ["catalina.sh", "run"]
+
