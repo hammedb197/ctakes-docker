@@ -82,12 +82,15 @@ VOLUME "$USER_HOME_DIR/.m2"
 # ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
 
 # CMD ["mvn"]
-
+#RUN init_db.sh
 #RUN git clone https://github.com/GoTeamEpsilon/ctakes-rest-service.git
 
 WORKDIR  ctakes-rest-service/
 COPY ctakes-rest-service/sno_rx_16ab_db /docker-entrypoint-initdb.d/
 COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
+COPY init_db.sh .
+
+RUN ctakes-rest-service/init_db.sh
 RUN mkdir ctakes-codebase-area && \ 
     cd ctakes-codebase-area && \
     svn export 'https://svn.apache.org/repos/asf/ctakes/trunk' && \
@@ -102,7 +105,7 @@ RUN mkdir ctakes-codebase-area && \
 
 #
 EXPOSE 8080
-RUN ls opt/
-CMD opt/tomcat/apache-tomcat-8.5.60/bin/catalina.sh  run
+RUN ls /opt/tomcat/apache-tomcat-8.5.60/bin/
+CMD /opt/tomcat/apache-tomcat-8.5.60/bin/catalina.sh  run
 #CMD ["catalina.sh", "run"]
 
