@@ -78,6 +78,20 @@ COPY settings-docker.xml /usr/share/maven/ref/
 
 VOLUME "$USER_HOME_DIR/.m2"
 # ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
+
+# CMD ["mvn"]
+#RUN init_db.sh
+#RUN git clone https://github.com/GoTeamEpsilon/ctakes-rest-service.git
+#WORKDIR ctakes-docker/
+WORKDIR  ctakes-rest-service/
+COPY ctakes-rest-service/sno_rx_16ab_db .
+COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
+COPY ctakes-rest-service .
+#RUN chmod +x  init_db.sh
+#COPY init_db.sh .
+#RUN ls -la
+#RUN chmod +x  init_db.sh
+#RUN ./init_db.sh
 RUN /etc/init.d/mysql start && \
         mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass'" && \
     	mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/01_setup.sql && \
@@ -88,20 +102,6 @@ RUN /etc/init.d/mysql start && \
         mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/06_load.sql && \
         mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/07_load.sql && \
         mysql -u root -ppass < sno_rx_16ab_db/08_load.sql
-
-# CMD ["mvn"]
-#RUN init_db.sh
-#RUN git clone https://github.com/GoTeamEpsilon/ctakes-rest-service.git
-#WORKDIR ctakes-docker/
-WORKDIR  ctakes-rest-service/
-COPY ctakes-rest-service/sno_rx_16ab_db /docker-entrypoint-initdb.d/
-COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
-COPY ctakes-rest-service .
-#RUN chmod +x  init_db.sh
-#COPY init_db.sh .
-#RUN ls -la
-#RUN chmod +x  init_db.sh
-#RUN ./init_db.sh
 
 RUN mkdir ctakes-codebase-area && \ 
     cd ctakes-codebase-area && \
