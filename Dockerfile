@@ -89,9 +89,10 @@ COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
 COPY ctakes-rest-service .
 #RUN chmod +x  init_db.sh
 #COPY init_db.sh .
-#RUN ls -la
+RUN ls sno_rx_16ab_db
 #RUN chmod +x  init_db.sh
 #RUN ./init_db.sh
+#RUN ls  ctakes-rest-service/sno_rx_16ab_db
 RUN /etc/init.d/mysql start && \
         mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass'" && \
     	mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/01_setup.sql && \
