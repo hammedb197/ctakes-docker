@@ -95,13 +95,13 @@ RUN ls sno_rx_16ab_db
 #RUN ls  ctakes-rest-service/sno_rx_16ab_db
 RUN /etc/init.d/mysql start && \
         mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass'" && \
-    	mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/01_setup.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/02_load.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/03_load.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/04_load.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/05_load.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/06_load.sql && \
-        mysql -u root -ppass < ctakes-rest-service/sno_rx_16ab_db/07_load.sql && \
+    	mysql -u root -ppass < sno_rx_16ab_db/01_setup.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/02_load.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/03_load.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/04_load.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/05_load.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/06_load.sql && \
+        mysql -u root -ppass < sno_rx_16ab_db/07_load.sql && \
         mysql -u root -ppass < sno_rx_16ab_db/08_load.sql
 
 RUN mkdir ctakes-codebase-area && \ 
