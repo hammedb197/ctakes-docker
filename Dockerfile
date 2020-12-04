@@ -1,3 +1,4 @@
+
 FROM ubuntu:18.04 
 
 RUN apt-get -y update && apt-get -y upgrade
@@ -10,7 +11,7 @@ RUN cd /opt/tomcat/ && wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin
     tar xvfz apache*.tar.gz && ls /opt/tomcat/apache-tomcat-8.5.60
 RUN ls opt/tomcat/apache-tomcat-8.5.60/bin
 # opt/tomcat/apache-tomcat-8.5.60/bin/startup.sh
-RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
+#RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
 # EXPOSE 8080
 # CMD /usr/local/tomcat/bin/catalina.sh run
 
@@ -93,17 +94,18 @@ RUN ls sno_rx_16ab_db
 #RUN chmod +x  init_db.sh
 #RUN ./init_db.sh
 #RUN ls  ctakes-rest-service/sno_rx_16ab_db
-RUN /etc/init.d/mysql start && \
-        mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass'" && \
-    	mysql -u root -ppass < sno_rx_16ab_db/01_setup.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/02_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/03_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/04_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/05_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/06_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/07_load.sql && \
-        mysql -u root -ppass < sno_rx_16ab_db/08_load.sql
-
+#RUN /etc/init.d/mysql start && \
+ #       mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'pass'" && \
+  #  	mysql -u root -ppass < sno_rx_16ab_db/01_setup.sql && \
+  #      mysql -u root -ppass < sno_rx_16ab_db/02_load.sql && \
+   #     mysql -u root -ppass < sno_rx_16ab_db/03_load.sql && \
+    #    mysql -u root -ppass < sno_rx_16ab_db/04_load.sql && \
+      #  mysql -u root -ppass < sno_rx_16ab_db/05_load.sql && \
+     #   mysql -u root -ppass < sno_rx_16ab_db/06_load.sql && \
+     #   mysql -u root -ppass < sno_rx_16ab_db/07_load.sql && \
+      #  mysql -u root -ppass < sno_rx_16ab_db/08_load.sql && \
+       # mysql -u root -ppass -e  "GRANT ALL PRIVILEGES ON  *.* TO 'root'@'%' IDENTIFIED BY 'pass';"
+#RUN /etc/init.d/mysql start && mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "show databases;" && mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "show tables from umls;"
 RUN mkdir ctakes-codebase-area && \ 
     cd ctakes-codebase-area && \
     svn export 'https://svn.apache.org/repos/asf/ctakes/trunk' && \
@@ -117,7 +119,7 @@ RUN mkdir ctakes-codebase-area && \
     mv /ctakes-rest-service/ctakes-web-rest/target/ctakes-web-rest.war /opt/tomcat/apache-tomcat-8.5.60/webapps/
 
 #
-EXPOSE 8080
+EXPOSE 8080 
 RUN ls /opt/tomcat/apache-tomcat-8.5.60/bin/
 CMD /opt/tomcat/apache-tomcat-8.5.60/bin/catalina.sh  run
 #CMD ["catalina.sh", "run"]
