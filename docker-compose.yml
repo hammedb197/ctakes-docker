@@ -3,8 +3,9 @@ version: "3"
 services:
   db:
     image: mysql:5.7
-    # volumes:
-      # - ./ctakes-rest-service/sno_rx_16ab_db/:/docker-entrypoint-initdb.d
+    volumes:
+      - ./ctakes-rest-service/sno_rx_16ab_db/:/var/lib/mysql
+      - ./ctakes-rest-service/sno_rx_16ab_db/:/docker-entrypoint-initdb.d:ro
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: pass
@@ -31,3 +32,9 @@ services:
       interval: 10s
       timeout: 3s
       retries: 10
+
+
+
+
+
+
