@@ -1,5 +1,3 @@
-
-
 FROM ubuntu:18.04 
 
 RUN apt-get -y update && apt-get -y upgrade
@@ -8,24 +6,15 @@ RUN apt-get -y install openjdk-8-jdk wget
 
 RUN mkdir /opt/tomcat/
 
+
+### For whatever reason, when Apache Tomcat is updated, older versions are removed from the server.
+### If the zip file is not found, you'll need to locate the latest version and update the following
+### command, as well as a few others below. The file server is found here:
+### http://www-us.apache.org/dist/tomcat/tomcat-8/ 
+
 RUN cd /opt/tomcat/ && wget http://apache.stu.edu.tw/tomcat/tomcat-8/v8.5.60/bin/apache-tomcat-8.5.60.tar.gz  && \
     tar xvfz apache*.tar.gz && ls /opt/tomcat/apache-tomcat-8.5.60
-
-
-RUN apt-get clean && apt-get purge mysql* && apt-get update -y && apt-get install -y && apt-get install -y mysql-server-5.7 && apt-get dist-upgrade
-# EXPOSE 8080
-# CMD /usr/local/tomcat/bin/catalina.sh run
-
-
-RUN apt-get update && apt-get install -y \
-    tar \
-    wget \
-    bash \
-    rsync \
-    python3.7 \
-    python3-pip \
-    software-properties-common \
-    graphviz
+RUN ls opt/tomcat/apache-tomcat-8.5.60/bin
 
 # Fix certificate issues
 RUN apt-get update && \
@@ -43,19 +32,8 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 
-# RUN chown -R mysql:root /var/lib/mysql/
- 
-ENV MYSQL_ROOT_PASSWORD  pass
-#ENV MYSQL_DATABASE company
-#RUN  useradd -m -U -d /opt/tomcat -s /bin/false tomcat
 
-# RUN cd /tmp
-### For whatever reason, when Apache Tomcat is updated, older versions are removed from the server.
-### If the zip file is not found, you'll need to locate the latest version and update the following
-### command, as well as a few others below. The file server is found here:
-### http://www-us.apache.org/dist/tomcat/tomcat-8/
 RUN  apt-get update -y
-# RUN  apt-get install -y maven subversion git unzip wget curl
 
 # install subversion client
 RUN apt-get -y update && apt-get install -y subversion
@@ -79,15 +57,14 @@ COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
 COPY settings-docker.xml /usr/share/maven/ref/
 
 VOLUME "$USER_HOME_DIR/.m2"
-# ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
 
-# CMD ["mvn"]
-
-#RUN git clone https://github.com/GoTeamEpsilon/ctakes-rest-service.git
 
 WORKDIR  ctakes-rest-service/
-COPY ctakes-rest-service/sno_rx_16ab_db /docker-entrypoint-initdb.d/
-COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
+#COPY ctakes-rest-service/sno_rx_16ab_db .
+#COPY ctakes-rest-service/ctakes-web-rest ctakes-web-rest/
+COPY ctakes-rest-service .
+
+
 RUN mkdir ctakes-codebase-area && \ 
     cd ctakes-codebase-area && \
     svn export 'https://svn.apache.org/repos/asf/ctakes/trunk' && \
@@ -100,7 +77,6 @@ RUN mkdir ctakes-codebase-area && \
     mvn install && \
     mv /ctakes-rest-service/ctakes-web-rest/target/ctakes-web-rest.war /opt/tomcat/apache-tomcat-8.5.60/webapps/
 
-#
-EXPOSE 8080
 
-# CMD /usr/local/tomcat/bin/catalina.sh run
+EXPOSE 8080 
+CMD /opt/tomcat/apache-tomcat-8.5.60/bin/catalina.sh  run
