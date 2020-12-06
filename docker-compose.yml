@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7
+    # volumes:
+      # - ./ctakes-rest-service/sno_rx_16ab_db/:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_USER: root
+      MYSQL_PASSWORD: pass
+
+  ctakes_webserver:
+    build: .
+    environment:
+      VIRTUAL_HOST: ctakes_webserver
+      VIRTUAL_PORT: 8080
+      JDBC_URL: jdbc:mysql://db:3306/umls?connectTimeout=0&amp;socketTimeout=0&amp;autoReconnect=true
+      JDBC_USER: root
+      JDBC_PASS: pass
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    links:
+      - db
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=pass --database=umls --execute \"show tables;\""
+      interval: 10s
+      timeout: 3s
+      retries: 10
